@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>watch</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="increase" v-on:click="increaseNumber">
+        <p id="log">{{ number }}</p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el : '#app',
+        data:{
+            number : 0
+        },
+        watch:{
+            number: function(){
+                return console.log('this vaule change!! ' + this.number);
+            }
+        },
+        methods: {
+            increaseNumber: function(){
+                return this.number++;
+            }
+        },
+    })
+</script>
+</html>

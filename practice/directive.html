@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>computed</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!--vue cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-bind:id="elementId" v-bind:class="elementClass">{{ number }}</p> <!--10-->
+        <p v-bind:data="dataType">{{ addNumber }}</p> <!--11-->
+        <div v-if="existData">
+            <h2>Exist Data!!</h2>
+        </div>
+        <div v-else>
+            <h2>No Data!!</h2>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el : '#app',
+        data : {
+            number : 10,
+            elementId : 'text',
+            elementClass : 'blue-text',
+            dataType  : 'control-text',
+            existData : false
+        },
+        computed : {
+            addNumber : function () {
+                return this.number+1;
+            }
+        }      
+    })
+</script>
+
+</html>

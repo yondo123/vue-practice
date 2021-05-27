@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>computed</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!--vue cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="inputArea">
+        <input type="text"v-model="message" v-bind:id="inpId" v-on:keyup="saveText" v-bind:placeholder="placeholder">
+        <p v-bind:id="pId">감지된 키 : {{inputKey}}</p>
+        <p v-bind:id="pId">입력값 : {{message}}</p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el : '#inputArea',
+        data : {
+            message : '',
+            inputKey:'',
+            inpId : 'inputBox',
+            pId : 'detectKey',
+            placeholder : '키를 입력하세요.'
+        },
+        methods: {
+            saveText : function (value) {
+                console.log(value)
+                return this.inputKey = value.key;
+            }
+        },
+    })
+</script>
+</html>

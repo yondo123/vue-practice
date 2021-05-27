@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!--vue cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+    </div>
+</body>
+
+<script>
+    //인스턴스 생성
+    var vm = new Vue({
+        el: '#app', //실제 DOM 엘리먼트 접근
+        data: {
+            message: 'hello Vue!'
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>same-component-level</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <div id="body">
+        <app-header v-bind:headerdata="message"></app-header>
+        <app-footer v-on:message="bindData"></app-footer>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    const header = {
+        template : '<h2>Header</h2>',
+        props : ['headerdata']
+    }
+
+    const footer = {
+        template : '<div><h3>FOOTER</h3><button v-on:click="passData">trans-data</button></div>',
+        methods: {
+            passData : function(){
+                this.$emit('message', 'footer-data');
+            }
+        },
+    }
+
+    new Vue({
+        el : '#body',
+        components : {
+            'app-header' : header,
+            'app-footer' : footer
+        },
+        data : {
+            message : 'test'
+        },
+        methods: {
+            bindData : function(param){
+                this.message = param;
+            }
+        },
+    });
+</script>
+</html>
+

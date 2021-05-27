@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>event-emit</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body> 
+    <div id="app">
+        <app-header v-on:test="logMesage"></app-header>
+        <app-content v-on:add="addNumber"></app-content>
+        <p>number : {{number}}</p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    const appHeader = {
+        //v-on:click 문법으로 이벤트 생성
+        template: '<button v-on:click="clickEvent">click</button>',
+        methods: {
+            clickEvent: function (params) {
+                this.$emit('test');
+            }
+        }
+    };
+    
+    const appContent = {
+        template: '<button v-on:click="addNumber">add</button>',
+        methods: {
+            addNumber: function (params) {
+                //상위 컴포넌트에 binding 할 이벤트를 정의
+                this.$emit('add')
+            }
+        }
+    }
+
+    const vueObject = new Vue({
+        el: '#app',
+        components: { //local component
+            'app-header': appHeader,
+            'app-content': appContent
+        },
+        methods: {
+            logMesage: function () {
+                console.log('test log');
+            },
+            addNumber: function () {
+                //this 키워드로 정의한 data에 접근 가능
+                console.log(this.number++);
+            }
+        },
+        data: {
+            number: 1
+        }
+    });
+
+    console.log(vueObject);
+
+</script>
+</html>
