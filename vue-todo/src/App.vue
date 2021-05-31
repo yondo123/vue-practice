@@ -3,12 +3,11 @@
     <todoNav></todoNav>
     <todoHeader></todoHeader>
     <todoInput v-on:addItem="addRowItem"></todoInput>
-    <todoTable v-bind:propsdata="todoItems" v-on:removeItem="removeRowItem"></todoTable>
+    <todoTable v-bind:propsdata="todoItems" v-on:removeItem="removeRowItem" v-on:toggleItem="toggleRowItem"></todoTable>
   </div>
 </template>
 <script>
 import TodoNav from './components/TodoNav.vue'
-import TodoHeader from './components/TodoHeader.vue'
 import TodoTable from './components/TodoTable.vue'
 import TodoInput from './components/TodoInput.vue'
 
@@ -21,11 +20,11 @@ export default {
     },
     components: {
         'todoNav': TodoNav,
-        'todoHeader': TodoHeader,
         'todoTable': TodoTable,
         'todoInput': TodoInput
     },
     methods: {
+        //todo item 추가
         addRowItem: function (item) {
             const currentTime = this.getUtcToKrTime();
             this.todoItems.push({
@@ -37,15 +36,21 @@ export default {
             });
             console.log('[todolist update]' + JSON.stringify(this.todoItems));
         },
+        //todo item 삭제
         removeRowItem: function (index) {
           this.todoItems[index].removeFlag = true;
         },
+        //todo item 완료 갱신
+        toggleRowItem: function (index) {
+          this.todoItems[index].complete = !this.todoItems[index].complete; 
+        },
+        //한국 시간 반환
         getUtcToKrTime: function () {
             const krDiffTime = 9 * 60 * 60 * 1000;
             const curTime = new Date();
             const utcTime = curTime.getTime() + (curTime.getTimezoneOffset() * 60 * 1000);
             return new Date(utcTime + krDiffTime);
-        },
+        }
     }
 }
 </script>

@@ -20,7 +20,7 @@
                         <td><div>{{item.todo}}</div></td>
                         <td><div>{{formatKoreanTime(item.create)}}</div></td>
                         <td>
-                            <div><span><i v-bind:class="getTodoFlagIcon(item.complete)"></i></span></div>
+                            <div><span><i v-bind:class="getTodoFlagIcon(item.complete)" v-on:click="completeItem(item.index)"></i></span></div>
                         </td>
                         <td v-on:click="removeItem(item.index)"><div><i class="fas fa-eraser todo-delete"></i></div></td>
                     </tr>
@@ -52,8 +52,13 @@ export default {
           const timeSet = time.split(':');
           return `${timeSet[0]}시 ${timeSet[1]}분 ${timeSet[2]}초`
       },
+      //할일 삭제
       removeItem : function(index){
           this.$emit('removeItem', Number(index));
+      },
+      //할일 완료
+      completeItem : function(index){
+          this.$emit('toggleItem', Number(index));
       }
   }
 }
