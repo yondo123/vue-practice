@@ -23,7 +23,7 @@ export default {
       }
   },
   methods: {
-      addItem : function(){
+      addItem(){
           if(this.todoItem.length > 0){
             this.$emit('addItem', this.todoItem);
             return this.initInputContent();
@@ -31,7 +31,7 @@ export default {
               this.showModal = true;
           }
       },
-      initInputContent : function(){
+      initInputContent(){
           return this.todoItem = '';
       }
   },

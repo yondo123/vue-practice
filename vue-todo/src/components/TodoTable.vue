@@ -39,7 +39,7 @@ export default {
   },
   methods: {
       //todo check icon 지정
-      getTodoFlagIcon : function(todoFlag){
+      getTodoFlagIcon(todoFlag){
           if(todoFlag){
               return TODO_ICON.CHECKED_ICON;
           }else{
@@ -47,16 +47,16 @@ export default {
           }
       },
       //한국 표현 형식으로 변경
-      formatKoreanTime : function(time){
+      formatKoreanTime(time){
           const timeSet = time.split(':');
           return `${timeSet[0]}시 ${timeSet[1]}분 ${timeSet[2]}초`
       },
       //할일 삭제
-      removeItem : function(index){
+      removeItem(index){
           this.$emit('removeItem', Number(index));
       },
       //할일 완료
-      completeItem : function(index){
+      completeItem(index){
           this.$emit('toggleItem', Number(index));
       }
   }
