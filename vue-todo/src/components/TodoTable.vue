@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in this.$store.state.todoItems" v-bind:key="item.todoItems" v-bind:class="{'active' : (item.removeFlag == false)}">
+                    <tr v-for="item in this.todoItem" v-bind:key="item.todoItem" v-bind:class="{'active' : (item.removeFlag == false)}">
                         <td><div>{{item.todo}}</div></td>
                         <td><div>{{formatKoreanTime(item.create)}}</div></td>
                         <td>
@@ -30,12 +30,16 @@
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import TODO_ICON from '../assets/constants.js'
 export default {
   data : ()=>{
       return {
-          isDeleted : true,
+          isDeleted : true
       }
+  },
+  computed:{
+    ...mapGetters({todoItem : 'getTodoItems'})
   },
   methods: {
       //todo check icon 지정

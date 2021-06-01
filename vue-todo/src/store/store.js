@@ -8,6 +8,11 @@ export const store = new Vuex.Store({
     state : {
         todoItems : []    
     },
+    getters : {
+        getTodoItems(state){
+            return state.todoItems;
+        }
+    },
     mutations : {
         //todo 추가
         addTodo(state, item){
