@@ -35,3 +35,7 @@ Vue.js Framework 예제 코드 테스트 및 학습 내용 정리
   ```bash
     npm install axios
   ```
++ **vuex**
+  ```bash
+    npm install vuex --save
+  ```
