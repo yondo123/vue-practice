@@ -4,6 +4,7 @@
             <div class="logoArea">
                 <img src="../assets/app_logo.png" class="logo"/>
                 <a>WhatTodo <br> Sample Vue TodoList</a>
+                <p>{{ this.$store.state.message }}</p>
             </div>
             <nav class="menu-right">
                 <a href="#">Home</a>

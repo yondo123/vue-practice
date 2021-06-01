@@ -1,9 +1,8 @@
 <template>
   <div>
     <todoNav></todoNav>
-    <todoHeader></todoHeader>
     <todoInput v-on:addItem="addRowItem"></todoInput>
-    <todoTable v-bind:propsdata="todoItems" v-on:removeItem="removeRowItem" v-on:toggleItem="toggleRowItem"></todoTable>
+    <todoTable v-on:removeItem="removeRowItem" v-on:toggleItem="toggleRowItem"></todoTable>
   </div>
 </template>
 <script>
@@ -14,8 +13,7 @@ import TodoInput from './components/TodoInput.vue'
 export default {
     data: () => {
         return {
-            todoIndex: 0,
-            todoItems: []
+            todoIndex: 0
         }
     },
     components: {
@@ -27,22 +25,23 @@ export default {
         //todo item 추가
         addRowItem: function (item) {
             const currentTime = this.getUtcToKrTime();
-            this.todoItems.push({
+            const todoItems = this.$store.state.todoItems;
+            todoItems.push({
                 index: this.todoIndex++,
                 todo: item,
                 complete: false,
                 create: currentTime.toISOString().substr(11, 8),
                 removeFlag : false
             });
-            console.log('[todolist update]' + JSON.stringify(this.todoItems));
+            console.log('[todolist update]' + JSON.stringify(todoItems));
         },
         //todo item 삭제
         removeRowItem: function (index) {
-          this.todoItems[index].removeFlag = true;
+          this.$store.state.todoItems[index].removeFlag = true;
         },
         //todo item 완료 갱신
         toggleRowItem: function (index) {
-          this.todoItems[index].complete = !this.todoItems[index].complete; 
+         this.$store.state.todoItems[index].complete = !this.$store.state.todoItems[index].complete; 
         },
         //한국 시간 반환
         getUtcToKrTime: function () {

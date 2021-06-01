@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in propsdata" v-bind:key="item.todoItems" v-bind:class="{'active' : (item.removeFlag == false)}">
+                    <tr v-for="item in this.$store.state.todoItems" v-bind:key="item.todoItems" v-bind:class="{'active' : (item.removeFlag == false)}">
                         <td><div>{{item.todo}}</div></td>
                         <td><div>{{formatKoreanTime(item.create)}}</div></td>
                         <td>
@@ -37,7 +37,6 @@ export default {
           isDeleted : true,
       }
   },
-  props : ['propsdata'],
   methods: {
       //todo check icon 지정
       getTodoFlagIcon : function(todoFlag){
