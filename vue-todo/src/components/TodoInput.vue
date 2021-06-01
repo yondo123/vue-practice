@@ -34,7 +34,7 @@ export default {
       initInputContent(){
           return this.todoItem = '';
       }
-  },
+  }
 }
 </script>
 <style>
