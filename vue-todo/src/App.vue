@@ -23,28 +23,28 @@ export default {
     },
     methods: {
         //todo item 추가
-        addRowItem: function (item) {
+        addRowItem(item) {
             const currentTime = this.getUtcToKrTime();
-            const todoItems = this.$store.state.todoItems;
-            todoItems.push({
+            const todoItem = {
                 index: this.todoIndex++,
                 todo: item,
                 complete: false,
                 create: currentTime.toISOString().substr(11, 8),
                 removeFlag : false
-            });
-            console.log('[todolist update]' + JSON.stringify(todoItems));
+            };
+            console.log('[todolist update]' + JSON.stringify(todoItem));
+            this.$store.commit('addTodo', todoItem);
         },
         //todo item 삭제
-        removeRowItem: function (index) {
-          this.$store.state.todoItems[index].removeFlag = true;
+        removeRowItem(index) {
+          return this.$store.commit('removeTodo', index);
         },
         //todo item 완료 갱신
-        toggleRowItem: function (index) {
-         this.$store.state.todoItems[index].complete = !this.$store.state.todoItems[index].complete; 
+        toggleRowItem(index) {
+          return this.$store.commit('changeTodo', index);
         },
         //한국 시간 반환
-        getUtcToKrTime: function () {
+        getUtcToKrTime() {
             const krDiffTime = 9 * 60 * 60 * 1000;
             const curTime = new Date();
             const utcTime = curTime.getTime() + (curTime.getTimezoneOffset() * 60 * 1000);
