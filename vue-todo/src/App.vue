@@ -2,57 +2,49 @@
   <div>
     <todoNav></todoNav>
     <todoInput v-on:addItem="addRowItem"></todoInput>
-    <todoTable v-on:removeItem="removeRowItem" v-on:toggleItem="toggleRowItem"></todoTable>
+    <todoTable></todoTable>
   </div>
 </template>
 <script>
-import TodoNav from './components/TodoNav.vue'
-import TodoTable from './components/TodoTable.vue'
-import TodoInput from './components/TodoInput.vue'
+import TodoNav from "./components/TodoNav.vue";
+import TodoTable from "./components/TodoTable.vue";
+import TodoInput from "./components/TodoInput.vue";
 
 export default {
-    data: () => {
-        return {
-            todoIndex: 0
-        }
+  data: () => {
+    return {
+      todoIndex: 0,
+    };
+  },
+  components: {
+    todoNav: TodoNav,
+    todoTable: TodoTable,
+    todoInput: TodoInput,
+  },
+  methods: {
+    //todo item 추가
+    addRowItem(item) {
+      const currentTime = this.getUtcToKrTime();
+      const todoItem = {
+        index: this.todoIndex++,
+        todo: item,
+        complete: false,
+        create: currentTime.toISOString().substr(11, 8),
+        removeFlag: false,
+      };
+      console.log("[todolist update]" + JSON.stringify(todoItem));
+      this.$store.commit("addTodo", todoItem);
     },
-    components: {
-        'todoNav': TodoNav,
-        'todoTable': TodoTable,
-        'todoInput': TodoInput
+    //한국 시간 반환
+    getUtcToKrTime() {
+      const krDiffTime = 9 * 60 * 60 * 1000;
+      const curTime = new Date();
+      const utcTime =
+        curTime.getTime() + curTime.getTimezoneOffset() * 60 * 1000;
+      return new Date(utcTime + krDiffTime);
     },
-    methods: {
-        //todo item 추가
-        addRowItem(item) {
-            const currentTime = this.getUtcToKrTime();
-            const todoItem = {
-                index: this.todoIndex++,
-                todo: item,
-                complete: false,
-                create: currentTime.toISOString().substr(11, 8),
-                removeFlag : false
-            };
-            console.log('[todolist update]' + JSON.stringify(todoItem));
-            this.$store.commit('addTodo', todoItem);
-        },
-        //todo item 삭제
-        removeRowItem(index) {
-          return this.$store.commit('removeTodo', index);
-        },
-        //todo item 완료 갱신
-        toggleRowItem(index) {
-          return this.$store.commit('changeTodo', index);
-        },
-        //한국 시간 반환
-        getUtcToKrTime() {
-            const krDiffTime = 9 * 60 * 60 * 1000;
-            const curTime = new Date();
-            const utcTime = curTime.getTime() + (curTime.getTimezoneOffset() * 60 * 1000);
-            return new Date(utcTime + krDiffTime);
-        }
-    }
-}
+  },
+};
 </script>
 <style>
-  
 </style>
