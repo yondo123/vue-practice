@@ -9,7 +9,7 @@
                 <div class="post">
                     <span>by </span>
                     <span class="writer">{{ item.user }}</span>
-                    <span class="posted">{{ time_ago }}</span>
+                    <span class="posted">{{ item.time_ago }}</span>
                 </div>
             </li>
         </ol>
