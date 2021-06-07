@@ -1,15 +1,15 @@
 <template lang="en">
     <main>
         <ol class="board">
-            <li class="board-item">
+            <li class="board-item" v-for="(item, index) in this.news" :key="index">
                 <div class="title">
-                    <strong class="order">1.</strong>
-                    <h2>A New Future For Icanzip</h2>
+                    <strong class="order">{{item.points}}.</strong>
+                    <h2>{{ item.title }}</h2>
                 </div>
                 <div class="post">
                     <span>by </span>
-                    <span class="writer">yondo123</span>
-                    <span class="posted">6 hours ago</span>
+                    <span class="writer">{{ item.user }}</span>
+                    <span class="posted">{{ time_ago }}</span>
                 </div>
             </li>
         </ol>
@@ -26,10 +26,10 @@ export default {
     created() {
         axios.get('https://api.hnpwa.com/v0/news/1.json')
         .then(response =>{
-            this.news = response;
+            this.news = response.data;
         })
-        .catch(()=>{
-
+        .catch(erorr=>{
+            console.log(`ERROR :: [${erorr}]`);
         });
     },
 };
