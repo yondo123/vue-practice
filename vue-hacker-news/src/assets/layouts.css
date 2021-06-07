@@ -1,0 +1,15 @@
+:root {
+    --main-color : #E67E22;
+    --board-color : #FEF9E7;
+    --font-accent-color : #1C2833;
+    --font-normal-color : #ABB2B9;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 10px;
+}
+
+body {
+    margin: 0;
+}

@@ -1,23 +1,20 @@
 <template>
   <div id="app">
+    <hacker-head></hacker-head>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import HackerHead from "./components/HackerHead.vue";
 
 export default {
-  name: 'App',
-}
+  name: "App",
+  components: {
+    HackerHead,
+  },
+};
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./assets/list.css";
 </style>

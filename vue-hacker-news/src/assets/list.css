@@ -1,0 +1,95 @@
+body {
+    height: 100vh;
+}
+
+header,
+main {
+    margin: 0 10rem;
+}
+
+main {
+    height: 100%;
+}
+
+header {
+    height: 4rem;
+    background-color: var(--main-color);
+    display: flex;
+}
+
+header h1 {
+    padding: 0.5rem 0.5rem;
+    display: inline;
+    font-size: 1.3rem;
+    line-height: 1;
+    text-align: center;
+}
+
+header a {
+    text-decoration: none;
+    color: var(--font-accent-color);
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.menu {
+    padding: 1.2rem 0;
+    width: 100%;
+}
+
+.menu a {
+    padding: 0 0.8rem;
+    text-align: center;
+    border-right: 1px solid var(--font-accent-color);
+}
+
+.menu a:last-child {
+    border-style: none;
+}
+
+.select {
+    color: #fff;
+    font-weight: 700;
+}
+
+.app-logo {
+    width: 14rem;
+    display: flex;
+}
+
+main {
+    background-color: var(--board-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.order {
+    color: var(--font-normal-color);
+}
+
+.board {
+    color: var(--font-normal-color);
+    padding: 0 2rem;
+    list-style: none;
+}
+
+.board-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--font-normal-color);
+}
+
+.title {
+    color: var(--font-accent-color);
+    display: flex;
+}
+
+.order {
+    padding: 1.4rem 1rem;
+    font-size: 1.2rem;
+}
+
+.post {
+    padding: 0rem 2.8rem;
+    line-height: 0;
+    font-size: 1.2rem;
+}
