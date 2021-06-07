@@ -39,3 +39,7 @@ Vue.js Framework 예제 코드 테스트 및 학습 내용 정리
   ```bash
     npm install vuex --save
   ```
++ **router**
+  ```bash
+    npm install vue-router --save
+  ```
