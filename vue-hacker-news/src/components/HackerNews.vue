@@ -16,22 +16,23 @@
     </main>
 </template>
 <script>
-import axios from 'axios';
+import { getNews } from '../api/request.js';
 export default {
-    data() {
-        return {
-            news : []
-        }
-    },
-    created() {
-        axios.get('https://api.hnpwa.com/v0/news/1.json')
-        .then(response =>{
-            this.news = response.data;
-        })
-        .catch(erorr=>{
-            console.log(`ERROR :: [${erorr}]`);
-        });
-    },
+  data() {
+    return {
+      news: []
+    }
+  },
+  created() {
+    getNews()
+      .then(response => {
+        this.news = response.data;
+        console.log(response.data);
+      })
+      .catch(erorr => {
+        console.log(`ERROR :: [${erorr}]`);
+      });
+  }
 };
 </script>
 <style scope>
