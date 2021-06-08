@@ -1,7 +1,7 @@
 <template lang="en">
     <main>
         <ol class="board">
-            <li class="board-item" v-for="(item, index) in this.jobs" :key="index">
+            <li class="board-item" v-for="(item, index) in this.jobList" :key="index">
                 <div class="title">
                     <h2>{{ item.title }}</h2>
                 </div>
@@ -14,21 +14,13 @@
     </main>
 </template>
 <script>
-import {getJobs} from '../api/request.js'
+import { mapGetters } from 'vuex';
 export default {
-    data() {
-        return {
-            jobs : []
-        }
+    computed : {
+        ...mapGetters('job', {jobList : 'getJobList'})
     },
     created() {
-        getJobs()
-            .then(response => {
-                this.jobs = response.data;
-            })
-            .catch(error => {
-                console.log(`ERROR :: [${error}]`);
-            });
+        this.$store.dispatch('job/requestJobList');
     },
 }
 </script>

@@ -1,7 +1,7 @@
 <template lang="en">
     <main>
         <ol class="board">
-            <li class="board-item" v-for="(item, index) in this.news" :key="index">
+            <li class="board-item" v-for="(item, index) in this.newsList" :key="index">
                 <div class="title">
                     <strong class="order">{{item.points}}.</strong>
                     <h2>{{ item.title }}</h2>
@@ -16,22 +16,13 @@
     </main>
 </template>
 <script>
-import { getNews } from '../api/request.js';
+import { mapGetters } from 'vuex';
 export default {
-  data() {
-    return {
-      news: []
-    }
+  computed : {
+    ...mapGetters('news', { newsList : 'getNewsList'})
   },
   created() {
-    getNews()
-      .then(response => {
-        this.news = response.data;
-        console.log(response.data);
-      })
-      .catch(erorr => {
-        console.log(`ERROR :: [${erorr}]`);
-      });
+      this.$store.dispatch('news/requestNewsList');
   }
 };
 </script>
