@@ -7,7 +7,6 @@
 
 <script>
 import HackerHead from "./components/HackerHead.vue";
-
 export default {
   name: "App",
   components: {
