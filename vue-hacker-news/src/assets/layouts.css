@@ -1,8 +1,8 @@
 :root {
-    --main-color : #E67E22;
-    --board-color : #FEF9E7;
-    --font-accent-color : #1C2833;
-    --font-normal-color : #ABB2B9;
+    --main-color: #ff6600;
+    --board-color: #F6F6EF;
+    --font-accent-color: #1C2833;
+    --font-normal-color: #718093;
 }
 
 html {
@@ -12,4 +12,9 @@ html {
 
 body {
     margin: 0;
+}
+
+a {
+    color: var(--font-accent-color);
+    text-decoration: none;
 }
