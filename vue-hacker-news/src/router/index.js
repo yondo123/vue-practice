@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Ask from '../views/Ask.vue';
 import News from '../views/News.vue';
 import Job from '../views/Job.vue';
+import User from '../views/User.vue';
 
 Vue.use(VueRouter);
 
@@ -20,5 +21,8 @@ export const router = new VueRouter({
     }, {
         path: '/job',
         component: Job
+    }, {
+        path: '/user/:id',
+        component : User
     }]
 });

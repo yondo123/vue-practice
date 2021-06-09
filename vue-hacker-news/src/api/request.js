@@ -22,12 +22,21 @@ const getAsk = () => {
 
 /**
  * jobs 조회
- * @returns {Promise} :
+ * @returns {Promise} : response data
  */
 const getJobs = () => {
     return axios.get(constants.REQUEST_URL + 'v0/jobs/1.json');
 }
 
+/**
+ * 사용자 상세 조회
+ * @param {String} userName : 사용자 이름 
+ * @returns {Promise} : response data
+ */
+const getUserDetail = (userName) =>{
+    return axios.get(constants.REQUEST_URL + `v0/user/${userName}.json`);
+};
+
 export {
-    getNews, getAsk, getJobs
+    getNews, getAsk, getJobs, getUserDetail
 }

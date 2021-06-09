@@ -8,8 +8,10 @@
                 </div>
                 <div class="post">
                     <span>by </span>
-                    <span class="writer">{{ item.user }}</span>
-                    <span class="posted">{{ item.time_ago }}</span>
+                    <router-link v-bind:to="`/user/${item.user}`">
+                        <span class="writer">{{ item.user }}</span>
+                        <span class="posted">{{ item.time_ago }}</span>
+                    </router-link>
                 </div>
             </li>
         </ol>
