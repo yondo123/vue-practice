@@ -4,9 +4,9 @@
             <h1>Hacker News</h1>
         </a>
         <nav class="menu">
-            <router-link to="news">News</router-link>
-            <router-link to="ask">Ask</router-link>
-            <router-link to="job">Jobs</router-link>
+            <router-link to="/news">News</router-link>
+            <router-link to="/ask">Ask</router-link>
+            <router-link to="/job">Jobs</router-link>
         </nav>
     </header>
 </template>
