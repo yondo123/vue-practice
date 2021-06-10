@@ -10,7 +10,7 @@
                     <span>by </span>
                     <router-link v-bind:to="`/user/${item.user}`">
                         <span class="writer">{{ item.user }}</span>
-                        <span class="posted">{{ item.time_ago }}</span>
+                        <span class="posted"> {{ item.time_ago }}</span>
                     </router-link>
                 </div>
             </li>
