@@ -1,6 +1,6 @@
 <template lang="en">
     <main>
-        <dl class="detail">
+        <dl class="detail" v-if="userInfo">
             <div>
                 <dt>user&#58;</dt>
                 <dl>{{userInfo.id}}</dl>
