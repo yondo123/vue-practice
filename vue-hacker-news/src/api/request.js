@@ -33,10 +33,22 @@ const getJobs = () => {
  * @param {String} userName : 사용자 이름 
  * @returns {Promise} : response data
  */
-const getUserDetail = (userName) =>{
+const getUserDetail = (userName) => {
     return axios.get(constants.REQUEST_URL + `v0/user/${userName}.json`);
 };
 
+/**
+ * 질문 상세 조회
+ * @param {String} askId 
+ * @returns {Promise} : response data
+ */
+const getAskDetail = (askId) => {
+    return axios.get(constants.REQUEST_URL + `v0/item/${askId}.json`);
+}
 export {
-    getNews, getAsk, getJobs, getUserDetail
+    getNews,
+    getAsk,
+    getJobs,
+    getUserDetail,
+    getAskDetail
 }

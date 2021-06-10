@@ -4,6 +4,7 @@ import Ask from '../views/Ask.vue';
 import News from '../views/News.vue';
 import Job from '../views/Job.vue';
 import User from '../views/User.vue';
+import AskItem from '../views/AskItem.vue';
 
 Vue.use(VueRouter);
 
@@ -24,5 +25,8 @@ export const router = new VueRouter({
     }, {
         path: '/user/:id',
         component : User
+    }, {
+        path: '/ask/:id',
+        component : AskItem
     }]
 });
