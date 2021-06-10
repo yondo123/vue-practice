@@ -1,10 +1,13 @@
 body {
     height: 100vh;
 }
-
 header,
 main {
     margin: 0 10rem;
+}
+
+a {
+    color: var(--font-normal-color);
 }
 
 main {
@@ -37,10 +40,15 @@ header a {
     padding: 1.2rem 0;
     width: 100%;
 }
+
 .menu a {
     padding: 0 0.8rem;
     text-align: center;
     border-right: 1px solid var(--font-accent-color);
+}
+
+.menu a:last-child {
+    border-style: none;
 }
 
 .select {

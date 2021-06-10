@@ -15,6 +15,5 @@ body {
 }
 
 a {
-    color: var(--font-accent-color);
     text-decoration: none;
 }
