@@ -10,9 +10,6 @@ import { mapGetters } from 'vuex';
 export default {
     computed : {
         ...mapGetters('ask', {askDetail : 'getAskDetail'})
-    },
-    created() {
-        this.$store.dispatch('ask/requestAskDeatil', this.$route.params.id);
     }
 }
 </script>
@@ -38,5 +35,5 @@ export default {
 
 .question-content {
     padding : 1rem 0;
-}   
+}
 </style>
