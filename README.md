@@ -1,45 +1,30 @@
-## vue-practice
-Vue.js Framework 예제 코드 테스트 및 학습 내용 정리
-
-### init vue 
-```bash
+## :green_book: Vue.js Framework 정리
+### 개발환경 구성
+1. node 버전 확인 및 vue-cli 설치
+    ```bash
+    node -v
+    npm -v
+    ## 삭제 후 업그레이드
+    npm uninstall -g vue-cli
     npm install -g @vue/cli
-```
-
-### create project
-+ **vue 2.X**
-    ```bash
-        #vue init 'project-template-type' 'project-location'
-        vue init webpack-simple vue-project
-    ```
-  + **vue-webpack-boilerplate**
-    + hot-reload, router, unit test, linting 지원 (대규모 프로젝트 적합)
-  + **webpack-simple**
-    + 뻐른 프로토타입 규모에 적합
-  + **vue-simple-boilerplate**
-    + 하나의 html 존재 (튜토리얼 정도의 최소규모 프로젝트에 적합) 
-+ **vue 3.X**
-    ```bash
-        #vue create 'project-loaction'
-        vue create vue-project
     ```
 
-### start project
-`package.json` 참고  
-```bash
-    npm run serve
-```
+2. vue project 생성하기  
+- **vue 2**
+  ```bash
+  # vue init 'project-template-type' 'project-directory'
+  vue init webpack-simple vue-project
+  ```
+- **vue 3**
+  ```bash
+  # vue create 'project-directory'
+  vue create vue-project
+  ```
 
-### use npm module
-+ **axios**
-  ```bash
-    npm install axios
-  ```
-+ **vuex**
-  ```bash
-    npm install vuex --save
-  ```
-+ **router**
-  ```bash
-    npm install vue-router --save
-  ```
+### Index
+1. **[component](./01_vue_basic/component.html)**
+2. **[computed](./01_vue_basic/computed.html)**
+3. **[watch](./01_vue_basic/watch.html)**
+4. **[v-model](./01_vue_basic/v-model.html)**
+5. **[v-for](./02_vue_props_emit/../02_props_emit/src/components/PBMain.vue)**
+6. **[props/emit](./02_props_emit/README.md)**
