@@ -1,10 +1,10 @@
-import {getAsk, getAskDetail} from '../api/request.js';
+import { getAsk, getAskDetail } from '../api/request.js';
 
 const state = {
     list: [],
     askDetail: null,
     page: 1
-}
+};
 
 const getters = {
     getAsksList(state) {
@@ -13,37 +13,37 @@ const getters = {
     getAskDetail(state) {
         return state.askDetail;
     }
-}
+};
 
 const mutations = {
     setAsks(state, askList) {
-        return state.list = askList;
+        return (state.list = askList);
     },
-    setAskDetail(state, question){
-        return state.askDetail = question;
-    }  
-}
+    setAskDetail(state, question) {
+        return (state.askDetail = question);
+    }
+};
 
 const actions = {
     requestAskList(state) {
         getAsk()
-            .then(response => {
+            .then((response) => {
                 state.commit('setAsks', response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(`ERROR :: [${error}]`);
             });
     },
-    requestAskDeatil(state, askId){
+    requestAskDeatil(state, askId) {
         getAskDetail(askId)
-            .then(response => {
+            .then((response) => {
                 state.commit('setAskDetail', response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(`ERROR:: [${error}]`);
             });
     }
-}
+};
 
 export default {
     namespaced: true,
@@ -51,4 +51,4 @@ export default {
     getters,
     mutations,
     actions
-}
+};
