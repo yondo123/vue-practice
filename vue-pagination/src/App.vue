@@ -1,0 +1,26 @@
+<template>
+    <News msg="Welcome to Your Vue.js App" />
+</template>
+
+<script>
+import News from './components/News.vue';
+
+export default {
+    name: 'App',
+    components: {
+        News
+    }
+};
+</script>
+
+<style>
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    color: #2c3e50;
+    margin-top: 60px;
+}
+</style>
