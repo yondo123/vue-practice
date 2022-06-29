@@ -1,36 +1,54 @@
 <template>
     <div>
-        <h1 class="text-3xl font-bold underline my-6 text-center">Hacker-News API</h1>
+        <h1 class="text-3xl font-bold underlitne my-6 text-center">Hacker-News API</h1>
         <ul class="flex flex-col px-10">
-            <li class="my-4 border-b-2 border-gray-400 news-list">
-                <p class="font-semibold cursor-pointer truncate">Junior employees more likely to fail in remote</p>
-                <p class="">an hour ago<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">48</span></p>
-            </li>
-            <li class="my-4 border-b-2 border-gray-400 news-list">
-                <p class="font-semibold cursor-pointer truncate">Blood Pressure E-Tattoo Promises Continuous, Mobile Monitoring</p>
-                <p class="">an hour ago<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">48</span></p>
-            </li>
-            <li class="my-4 border-b-2 border-gray-400 news-list">
-                <p class="font-semibold cursor-pointer truncate">
-                    Show HN: Yboard is a multiplayer desktop-like workspace based on CRDT Show HN: Yboard is a multiplayer desktop-like workspace based on CRDT Show HN: Yboard is a multiplayer
-                    desktop-like workspace based on CRDT
+            <li v-for="item in listItems" v-bind:key="item" class="my-4 border-b-2 border-gray-400 news-list">
+                <p class="font-semibold cursor-pointer truncate">{{ item.title }}</p>
+                <p class="">
+                    {{ item.time_ago }}<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">{{ item.points }}</span>
                 </p>
-                <p class="">an hour ago<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">48</span></p>
-            </li>
-            <li class="my-4 border-b-2 border-gray-400 news-list">
-                <p class="font-semibold cursor-pointer truncate">Junior employees more likely to fail in remote</p>
-                <p class="">an hour ago<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">48</span></p>
-            </li>
-            <li class="my-4 border-b-2 border-gray-400 news-list">
-                <p class="font-semibold cursor-pointer truncate">Junior employees more likely to fail in remote</p>
-                <p class="">an hour ago<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">48</span></p>
             </li>
         </ul>
+        <pagination v-model="page" :records="totalLength" :per-page="30" @paginate="changePage" />
     </div>
 </template>
 
 <script>
-export default {};
+import Pagination from 'v-pagination-3';
+export default {
+    components: {
+        Pagination
+    },
+    data() {
+        return {
+            page: 1,
+            records: 20,
+            listItems: []
+        };
+    },
+    mounted: function () {
+        this.fetchData();
+    },
+    computed: {
+        totalLength() {
+            return this.records;
+        }
+    },
+    methods: {
+        fetchData: function () {
+            fetch(`https://api.hnpwa.com/v0/news/${this.page}.json`)
+                .then(response => response.json())
+                .then(items => {
+                    this.records = items.length * 10;
+                    this.listItems = items;
+                });
+        },
+        changePage: function (page) {
+            this.page = page;
+            return this.fetchData();
+        }
+    }
+};
 </script>
 
 <style>
@@ -38,5 +56,28 @@ export default {};
     min-height: 4rem;
     min-width: 480px;
     max-width: 640px;
+}
+
+.VuePagination__pagination {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.VuePagination__pagination-item {
+    padding: 0 0.6rem;
+    min-width: 0.8rem;
+}
+
+.VuePagination__count {
+    display: none;
+}
+
+.active {
+    font-weight: 700;
+    color: #fff;
+    background-color: #f69e0b;
+    border-radius: 4px;
 }
 </style>
