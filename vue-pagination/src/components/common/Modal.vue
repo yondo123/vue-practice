@@ -1,26 +1,18 @@
 <template>
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <slot name="header"> default header </slot>
-                    </div>
+    <div class="modal-mask">
+        <div class="modal-wrapper">
+            <div class="modal-container">
+                <div class="modal-header modal-item">
+                    <slot name="header"> default header </slot>
+                </div>
 
-                    <div class="modal-body">
-                        <slot name="body"> default body </slot>
-                    </div>
-
-                    <div class="modal-footer">
-                        <slot name="footer">
-                            default footer
-                            <button class="modal-default-button" @click="closePopup">닫기</button>
-                        </slot>
-                    </div>
+                <div class="modal-body modal-item">
+                    <slot name="body"> default body </slot>
+                    <button class="modal-default-button" @click="closePopup">닫기</button>
                 </div>
             </div>
         </div>
-    </transition>
+    </div>
 </template>
 
 <script>
@@ -66,7 +58,7 @@ export default {
 
 .modal-header h3 {
     margin-top: 0;
-    color: #42b983;
+    color: #f69e0b;
 }
 
 .modal-body {
@@ -81,28 +73,5 @@ export default {
     background-color: #f69e0b;
     width: 3.6rem;
     padding: 0 2px;
-}
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
-.modal-enter {
-    opacity: 0;
-}
-
-.modal-leave-active {
-    opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
 }
 </style>

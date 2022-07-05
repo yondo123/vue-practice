@@ -10,7 +10,22 @@
             </li>
         </ul>
         <pagination v-model="page" :records="totalLength" :per-page="30" @paginate="changePage" />
-        <Modal v-if="showModal" @close="close"></Modal>
+        <transition name="modal">
+            <Modal v-if="showModal" @close="close">
+                <template v-slot:header>
+                    <div class="news-item flex flex-wrap">
+                        <h3 class="header">작성자</h3>
+                        <p class="content">{{ newsItem['user'] }}</p>
+                    </div>
+                </template>
+                <template v-slot:body>
+                    <div class="news-item flex flex-wrap">
+                        <h3 class="header">작성날짜</h3>
+                        <p class="content">{{ formatLocaleTime(newsItem['time']) }}</p>
+                    </div>
+                </template>
+            </Modal>
+        </transition>
     </div>
 </template>
 
@@ -24,6 +39,7 @@ export default {
     },
     data() {
         return {
+            newsItem: {},
             showModal: false,
             newsInfo: {},
             page: 1,
@@ -53,11 +69,15 @@ export default {
             return this.fetchData();
         },
         viewNewsContent: function (newsItem) {
-            console.log('item', JSON.stringify(newsItem));
+            this.newsItem = newsItem;
             this.showModal = !this.showModal;
         },
         close: function () {
             this.showModal = false;
+        },
+        formatLocaleTime: function (value) {
+            const fullMs = value.toString().padEnd(13, 0);
+            return new Date(Number(fullMs)).toLocaleDateString();
         }
     }
 };
@@ -91,5 +111,30 @@ export default {
     color: #fff;
     background-color: #f69e0b;
     border-radius: 4px;
+}
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.modal-item h3 {
+    min-width: 3.4rem;
+    font-weight: 700;
+    margin-top: 0;
+    color: #f69e0b;
+}
+
+.modal-item .content {
+    padding-left: 1.2rem;
 }
 </style>
