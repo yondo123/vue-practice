@@ -1,14 +1,17 @@
 <template>
     <div>
         <h1 class="text-3xl font-bold underlitne my-6 text-center">Hacker-News API</h1>
-        <ul class="flex flex-col px-10">
-            <li v-for="item in listItems" v-bind:key="item" class="my-4 border-b-2 border-gray-400 news-list" @click="viewNewsContent(item)">
-                <p class="font-semibold cursor-pointer truncate">{{ item.title }}</p>
-                <p>
-                    {{ item.time_ago }}<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">{{ item.points }}</span>
-                </p>
-            </li>
-        </ul>
+        <div class="flex flex-col px-10 items-end">
+            <button type="button" class="items-center justify-center rounded-md bg-yellow-400 px-2 w-14 text-white">Write</button>
+            <ul>
+                <li v-for="item in listItems" v-bind:key="item" class="my-4 border-b-2 border-gray-400 news-list" @click="viewNewsContent(item)">
+                    <p class="font-semibold cursor-pointer truncate">{{ item.title }}</p>
+                    <p>
+                        {{ item.time_ago }}<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">{{ item.points }}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
         <pagination v-model="page" :records="totalLength" :per-page="30" @paginate="changePage" />
         <transition name="modal">
             <Modal v-if="showModal" @close="close">
