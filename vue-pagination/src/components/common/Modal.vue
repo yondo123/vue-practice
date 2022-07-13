@@ -6,12 +6,7 @@
                 <div class="bg-white rounded-lg shadow relative dark:bg-gray-700">
                     <!-- Modal header -->
                     <div class="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-gray-900 text-xl lg:text-2xl font-semibold dark:text-white">Terms of Service</h3>
-                        <button
-                            @click="closePopup"
-                            type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        >
+                        <button @click="closePopup" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     fill-rule="evenodd"
@@ -23,26 +18,33 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-6 space-y-6">
+                        <input v-model="title" type="text" name="" id="" class="p-1.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" placeholder="제목을 입력하세요." />
                         <textarea
-                            class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-yellow-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-400 dark:focus:border-yellow-500"
-                            placeholder="Your message..."
-                            name=""
-                            id=""
+                            v-model="content"
+                            class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-yellow-400 dark:bg-gray-700"
+                            placeholder="내용을 입력해주세요."
+                            name="body"
                             cols="30"
                             rows="10"
                         ></textarea>
-                        <p class="text-gray-500 text-base leading-relaxed dark:text-gray-400">
-                            requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them. requires organizations to notify users as soon as
-                            possible of high-risk data breaches that could personally affect them. requires organizations to notify users as soon as possible of high-risk data breaches that could
-                            personally affect them.
-                        </p>
                     </div>
                     <!-- Modal footer -->
-                    <div class="flex space-x-2 items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <div class="flex space-x-2 items-center p-6 border-t border-gray-200 rounded-b">
                         <button
+                            v-if="!editmode"
+                            @click="sendPost"
                             data-modal-toggle="default-modal"
                             type="button"
-                            class="text-white bg-yellow-400 hover:bg-opacity-75 focus:ring-4 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-50 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600"
+                            class="text-white bg-yellow-400 hover:bg-opacity-75 focus:ring-4 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-50 focus:z-10"
+                        >
+                            작성하기
+                        </button>
+                        <button
+                            v-if="editmode"
+                            @click="editPost"
+                            data-modal-toggle="default-modal"
+                            type="button"
+                            class="text-white bg-yellow-400 hover:bg-opacity-75 focus:ring-4 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-50 focus:z-10"
                         >
                             수정하기
                         </button>
@@ -74,11 +76,72 @@
 </template>
 
 <script>
+import axios from 'axios';
+import {ref} from 'vue';
 export default {
-    methods: {
-        closePopup: function () {
-            this.$emit('close');
+    props: ['isEdit', 'postId'],
+    setup(props, {emit}) {
+        const editmode = ref(props.isEdit);
+        const title = ref('');
+        const content = ref('');
+
+        if (props.postId) {
+            getPostItem();
         }
+
+        //게시글 조회하기
+        function getPostItem() {
+            axios.get(`http://localhost:8088/board/${props.postId}`).then(function (res) {
+                if (res.status === 200) {
+                    content.value = res.data.content;
+                    title.value = res.data.title;
+                }
+            });
+        }
+
+        //게시글 작성하기
+        function sendPost() {
+            const today = new Date();
+            axios
+                .post('http://localhost:8088/board', {
+                    date: `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`,
+                    title: title.value,
+                    content: content.value
+                })
+                .then(function (res) {
+                    if (res.status === 200 || res.status === 201) {
+                        emit('close', true);
+                    }
+                });
+        }
+
+        //게시글 수정하기
+        function editPost() {
+            axios
+                .patch(`http://localhost:8088/board/${props.postId}`, {
+                    title: title.value,
+                    content: content.value
+                })
+                .then(function (res) {
+                    if (res.status === 200 || res.status === 201) {
+                        emit('close', true);
+                    }
+                });
+        }
+
+        function closePopup() {
+            emit('close', false);
+        }
+
+        return {
+            editmode,
+            title,
+            content,
+            closePopup,
+            sendPost,
+            getPostItem,
+            editPost
+        };
     }
 };
 </script>

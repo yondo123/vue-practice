@@ -1,87 +1,91 @@
 <template>
     <div>
-        <h1 class="text-3xl font-bold underlitne my-6 text-center">Hacker-News API</h1>
+        <h1 class="text-3xl font-bold underlitne my-6 text-center">✏️ Simple Post</h1>
         <div class="flex flex-col px-10 items-end">
-            <button type="button" class="items-center justify-center rounded-md bg-yellow-400 px-2 w-14 text-white">Write</button>
+            <button type="button" class="items-center justify-center rounded-md bg-yellow-400 px-2 w-14 text-white" @click="openModal(0)">Write</button>
             <ul>
-                <li v-for="item in listItems" v-bind:key="item" class="my-4 border-b-2 border-gray-400 news-list" @click="viewNewsContent(item)">
+                <li v-for="item in listItems" v-bind:key="item" class="my-4 border-b-2 border-gray-400 news-list" @click="openModal(item.id)">
                     <p class="font-semibold cursor-pointer truncate">{{ item.title }}</p>
                     <p>
-                        {{ item.time_ago }}<span class="mx-2 w-2 h-2 bg-yellow-500 rounded-full px-2 py-0 text-white">{{ item.points }}</span>
+                        {{ item.content }}<span class="text-sm mx-2 w-5 h-2 bg-gray-100 rounded-full px-2 py-0 text-gray-500">{{ item.date }}</span>
                     </p>
                 </li>
             </ul>
         </div>
-        <pagination v-model="page" :records="totalLength" :per-page="30" @paginate="changePage" />
+        <pagination v-model="page" :records="records" :per-page="10" @paginate="changePage" />
         <transition name="modal">
-            <Modal v-if="showModal" @close="close">
-                <template v-slot:header>
-                    <div class="news-item flex flex-wrap">
-                        <h3 class="header">작성자</h3>
-                        <p class="content">{{ newsItem['user'] }}</p>
-                    </div>
-                </template>
-                <template v-slot:body>
-                    <div class="news-item flex flex-wrap">
-                        <h3 class="header">작성날짜</h3>
-                        <p class="content">{{ formatLocaleTime(newsItem['time']) }}</p>
-                    </div>
-                </template>
-            </Modal>
+            <Modal :isEdit="edit" :postId="postId" v-if="showModal" @close="closeModal" @refresh="getPost"></Modal>
         </transition>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import Pagination from 'v-pagination-3';
 import Modal from './common/Modal.vue';
+import {ref, onMounted} from 'vue';
 export default {
     components: {
         Pagination,
         Modal
     },
+    setup() {
+        onMounted(function () {
+            getPost();
+        });
+
+        //Modal
+        const showModal = ref(false);
+        const edit = ref(false);
+
+        function openModal(id) {
+            edit.value = id > 0;
+            postId.value = id;
+            showModal.value = !showModal.value;
+        }
+
+        function closeModal(isRefresh) {
+            showModal.value = false;
+            return isRefresh ? getPost() : false;
+        }
+
+        //Post Api
+        const page = ref(1);
+        const records = ref(0);
+        const listItems = ref([]);
+        const postId = ref(0);
+        function getPost() {
+            axios.get(`http://localhost:8088/board?_page=${page.value}&_limit=10`).then(function (res) {
+                if (res.status === 200) {
+                    records.value = res.headers['x-total-count'] || 0;
+                    listItems.value = res.data;
+                }
+            });
+        }
+
+        function changePage(tobePage) {
+            page.value = tobePage;
+            getPost();
+        }
+
+        return {
+            edit,
+            postId,
+            showModal,
+            openModal,
+            closeModal,
+            getPost,
+            page,
+            records,
+            listItems,
+            changePage
+        };
+    },
     data() {
         return {
             newsItem: {},
-            showModal: false,
-            newsInfo: {},
-            page: 1,
-            records: 20,
-            listItems: []
+            newsInfo: {}
         };
-    },
-    mounted: function () {
-        this.fetchData();
-    },
-    computed: {
-        totalLength() {
-            return this.records;
-        }
-    },
-    methods: {
-        fetchData: function () {
-            fetch(`https://api.hnpwa.com/v0/news/${this.page}.json`)
-                .then(response => response.json())
-                .then(items => {
-                    this.records = items.length * 10;
-                    this.listItems = items;
-                });
-        },
-        changePage: function (page) {
-            this.page = page;
-            return this.fetchData();
-        },
-        viewNewsContent: function (newsItem) {
-            this.newsItem = newsItem;
-            this.showModal = !this.showModal;
-        },
-        close: function () {
-            this.showModal = false;
-        },
-        formatLocaleTime: function (value) {
-            const fullMs = value.toString().padEnd(13, 0);
-            return new Date(Number(fullMs)).toLocaleDateString();
-        }
     }
 };
 </script>

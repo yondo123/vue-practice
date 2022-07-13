@@ -1,5 +1,5 @@
 <template>
-    <News msg="Welcome to Your Vue.js App" />
+    <News />
 </template>
 
 <script>
