@@ -19,75 +19,68 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
 import Pagination from 'v-pagination-3';
 import Modal from './common/Modal.vue';
 import {ref, onMounted} from 'vue';
-export default {
-    components: {
-        Pagination,
-        Modal
-    },
-    setup() {
-        onMounted(function () {
-            getPost();
-        });
 
-        //Modal
-        const showModal = ref(false);
-        const edit = ref(false);
+onMounted(function () {
+    getPost();
+});
 
-        function openModal(id) {
-            edit.value = id > 0;
-            postId.value = id;
-            showModal.value = !showModal.value;
+//Modal
+const showModal = ref(false);
+const edit = ref(false);
+
+function openModal(id) {
+    edit.value = id > 0;
+    postId.value = id;
+    showModal.value = !showModal.value;
+}
+
+function closeModal(isRefresh) {
+    showModal.value = false;
+    return isRefresh ? getPost() : false;
+}
+
+//Post Api
+const page = ref(1);
+const records = ref(0);
+const listItems = ref([]);
+const postId = ref(0);
+function getPost() {
+    axios.get(`http://localhost:8088/board?_page=${page.value}&_limit=10`).then(function (res) {
+        if (res.status === 200) {
+            records.value = res.headers['x-total-count'] || 0;
+            listItems.value = res.data;
         }
+    });
+}
 
-        function closeModal(isRefresh) {
-            showModal.value = false;
-            return isRefresh ? getPost() : false;
-        }
+function changePage(tobePage) {
+    page.value = tobePage;
+    getPost();
+}
 
-        //Post Api
-        const page = ref(1);
-        const records = ref(0);
-        const listItems = ref([]);
-        const postId = ref(0);
-        function getPost() {
-            axios.get(`http://localhost:8088/board?_page=${page.value}&_limit=10`).then(function (res) {
-                if (res.status === 200) {
-                    records.value = res.headers['x-total-count'] || 0;
-                    listItems.value = res.data;
-                }
-            });
-        }
-
-        function changePage(tobePage) {
-            page.value = tobePage;
-            getPost();
-        }
-
-        return {
-            edit,
-            postId,
-            showModal,
-            openModal,
-            closeModal,
-            getPost,
-            page,
-            records,
-            listItems,
-            changePage
-        };
-    },
-    data() {
-        return {
-            newsItem: {},
-            newsInfo: {}
-        };
-    }
-};
+// return {
+//     edit,
+//     postId,
+//     showModal,
+//     openModal,
+//     closeModal,
+//     getPost,
+//     page,
+//     records,
+//     listItems,
+//     changePage
+// };
+// data() {
+//     return {
+//         newsItem: {},
+//         newsInfo: {}
+//     };
+// }
 </script>
 
 <style>
