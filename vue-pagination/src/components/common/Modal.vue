@@ -60,90 +60,70 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="modal-wrapper">
-            <div class="modal-container">
-                <div class="modal-header modal-item">
-                    <slot name="header"> default header </slot>
-                </div>
-
-                <div class="modal-body modal-item">
-                    <slot name="body"> default body </slot>
-                    <button class="modal-default-button" @click="closePopup">닫기</button>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
-import {ref} from 'vue';
-export default {
-    props: ['isEdit', 'postId'],
-    setup(props, {emit}) {
-        const editmode = ref(props.isEdit);
-        const title = ref('');
-        const content = ref('');
+import {ref, defineProps, defineEmits} from 'vue';
 
-        if (props.postId) {
-            getPostItem();
+const emit = defineEmits(['close']);
+const props = defineProps({
+    isEdit: String,
+    postId: String
+});
+
+const editmode = ref(props.isEdit);
+const title = ref('');
+const content = ref('');
+
+if (props.postId) {
+    getPostItem();
+}
+
+//게시글 조회하기
+function getPostItem() {
+    axios.get(`http://localhost:8088/board/${props.postId}`).then(function (res) {
+        if (res.status === 200) {
+            content.value = res.data.content;
+            title.value = res.data.title;
         }
+    });
+}
 
-        //게시글 조회하기
-        function getPostItem() {
-            axios.get(`http://localhost:8088/board/${props.postId}`).then(function (res) {
-                if (res.status === 200) {
-                    content.value = res.data.content;
-                    title.value = res.data.title;
-                }
-            });
-        }
+//게시글 작성하기
+function sendPost() {
+    const today = new Date();
+    axios
+        .post('http://localhost:8088/board', {
+            date: `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`,
+            title: title.value,
+            content: content.value
+        })
+        .then(function (res) {
+            if (res.status === 200 || res.status === 201) {
+                emit('close', true);
+            }
+        });
+}
 
-        //게시글 작성하기
-        function sendPost() {
-            const today = new Date();
-            axios
-                .post('http://localhost:8088/board', {
-                    date: `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`,
-                    title: title.value,
-                    content: content.value
-                })
-                .then(function (res) {
-                    if (res.status === 200 || res.status === 201) {
-                        emit('close', true);
-                    }
-                });
-        }
+//게시글 수정하기
+function editPost() {
+    axios
+        .patch(`http://localhost:8088/board/${props.postId}`, {
+            title: title.value,
+            content: content.value
+        })
+        .then(function (res) {
+            if (res.status === 200 || res.status === 201) {
+                emit('close', true);
+            }
+        });
+}
 
-        //게시글 수정하기
-        function editPost() {
-            axios
-                .patch(`http://localhost:8088/board/${props.postId}`, {
-                    title: title.value,
-                    content: content.value
-                })
-                .then(function (res) {
-                    if (res.status === 200 || res.status === 201) {
-                        emit('close', true);
-                    }
-                });
-        }
-
-        function closePopup() {
-            emit('close', false);
-        }
-
-        return {
-            editmode,
-            title,
-            content,
-            closePopup,
-            sendPost,
-            getPostItem,
-            editPost
-        };
-    }
-};
+function closePopup() {
+    emit('close', false);
+}
 </script>
 
 <style>

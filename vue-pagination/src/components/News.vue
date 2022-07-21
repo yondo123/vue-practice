@@ -62,25 +62,6 @@ function changePage(tobePage) {
     page.value = tobePage;
     getPost();
 }
-
-// return {
-//     edit,
-//     postId,
-//     showModal,
-//     openModal,
-//     closeModal,
-//     getPost,
-//     page,
-//     records,
-//     listItems,
-//     changePage
-// };
-// data() {
-//     return {
-//         newsItem: {},
-//         newsInfo: {}
-//     };
-// }
 </script>
 
 <style>
