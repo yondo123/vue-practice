@@ -32,7 +32,7 @@
                     <div class="flex space-x-2 items-center p-6 border-t border-gray-200 rounded-b">
                         <button
                             v-if="!editmode"
-                            @click="sendPost"
+                            @click="fetchSendPost"
                             data-modal-toggle="default-modal"
                             type="button"
                             class="text-white bg-yellow-400 hover:bg-opacity-75 focus:ring-4 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-50 focus:z-10"
@@ -41,7 +41,7 @@
                         </button>
                         <button
                             v-if="editmode"
-                            @click="editPost"
+                            @click="fetchEditPost"
                             data-modal-toggle="default-modal"
                             type="button"
                             class="text-white bg-yellow-400 hover:bg-opacity-75 focus:ring-4 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-50 focus:z-10"
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import {getPostItem, sendPost, editPost} from '../../api/request';
 import {ref, defineProps, defineEmits} from 'vue';
 
 const emit = defineEmits(['close']);
@@ -78,12 +78,12 @@ const title = ref('');
 const content = ref('');
 
 if (props.postId) {
-    getPostItem();
+    fetchPostItem();
 }
 
 //게시글 조회하기
-function getPostItem() {
-    axios.get(`http://localhost:8088/board/${props.postId}`).then(function (res) {
+function fetchPostItem() {
+    getPostItem(props.postId).then(function (res) {
         if (res.status === 200) {
             content.value = res.data.content;
             title.value = res.data.title;
@@ -92,33 +92,21 @@ function getPostItem() {
 }
 
 //게시글 작성하기
-function sendPost() {
-    const today = new Date();
-    axios
-        .post('http://localhost:8088/board', {
-            date: `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`,
-            title: title.value,
-            content: content.value
-        })
-        .then(function (res) {
-            if (res.status === 200 || res.status === 201) {
-                emit('close', true);
-            }
-        });
+function fetchSendPost() {
+    sendPost(title.value, content.value).then(function (res) {
+        if (res.status === 200 || res.status === 201) {
+            emit('close', true);
+        }
+    });
 }
 
 //게시글 수정하기
-function editPost() {
-    axios
-        .patch(`http://localhost:8088/board/${props.postId}`, {
-            title: title.value,
-            content: content.value
-        })
-        .then(function (res) {
-            if (res.status === 200 || res.status === 201) {
-                emit('close', true);
-            }
-        });
+function fetchEditPost() {
+    editPost(props.postId, title.value, content.value).then(function (res) {
+        if (res.status === 200 || res.status === 201) {
+            emit('close', true);
+        }
+    });
 }
 
 function closePopup() {
